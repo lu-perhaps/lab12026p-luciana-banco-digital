@@ -6,7 +6,7 @@ import lombok.Generated;
 
 import java.time.LocalDateTime;
 
-@Data
+@Data // Genera automáticamente los métodos getters, setters, toString, equals y hashCode para la clase.
 @Entity
 @Table(name="transaction")
 public class Transaction {
@@ -14,7 +14,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sender_account_number", nullable = false)
+    @Column(name = "sender_account_number", nullable = false) 
     private String senderAccountNumber;
 
     @Column(name = "receiver_account_number", nullable = false)

@@ -17,26 +17,32 @@ public class CustomerController {
         this.customerFacade = customerFacade;
     }
 
-    // ✅ Obtener todos los clientes
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
         return ResponseEntity.ok(customerFacade.getAllCustomers());
     }
 
-    // ✅ Obtener un cliente por ID
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
         return ResponseEntity.ok(customerFacade.getCustomerById(id));
     }
 
-    // ✅ Crear un nuevo cliente
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
         if (customerDTO.getBalance() == null) {
             throw new IllegalArgumentException("Balance cannot be null");
         }
-
         return ResponseEntity.ok(customerFacade.createCustomer(customerDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+        return ResponseEntity.ok(customerFacade.updateCustomer(id, customerDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        customerFacade.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
+    }
 }

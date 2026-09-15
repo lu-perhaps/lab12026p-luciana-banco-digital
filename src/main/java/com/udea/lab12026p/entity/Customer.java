@@ -3,14 +3,16 @@ package com.udea.lab12026p.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name= "customers")
+@Entity // comportese como un bean de entidad de JPA, lo que significa que esta clase se mapeará a una tabla en la base de datos.
+@Table(name= "customers") // Define el nombre de la tabla en la base de datos que se mapeará a esta entidad.
 public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Id // Indica que este campo es la clave primaria de la entidad.
+    @GeneratedValue(strategy = GenerationType.AUTO) // Indica que el valor de la clave primaria se generará automáticamente.
+    private Long id; // Identificador único para cada cliente, se generará automáticamente.
 
-    @Column(unique=true, nullable = false)
+
+    // Crea las columnas de la tabla "customers" en la base de datos y define sus restricciones.
+    @Column(unique=true, nullable = false) // Define que esta columna debe ser única y no puede ser nula.
     private String accountNumber;
     @Column(nullable = false, length = 50)
     private String firstName;
