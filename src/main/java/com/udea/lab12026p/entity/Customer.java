@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name= "customers") // Define el nombre de la tabla en la base de datos que se mapeará a esta entidad.
 public class Customer {
     @Id // Indica que este campo es la clave primaria de la entidad.
-    @GeneratedValue(strategy = GenerationType.AUTO) // Indica que el valor de la clave primaria se generará automáticamente.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Indica que el valor de la clave primaria se generará automáticamente.
     private Long id; // Identificador único para cada cliente, se generará automáticamente.
 
 
