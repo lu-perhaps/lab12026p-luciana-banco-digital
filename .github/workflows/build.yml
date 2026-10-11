@@ -2,10 +2,10 @@ name: CI/CD Pipeline
 on:
   workflow_dispatch:
   push:
-    branches: [main, feature/despliegue, feature/health-readme, feature/quality-gate]
+    branches: [main, feature/despliegue, feature/health-readme, feature/quality-gate, feature/restaurar-deploy]
   pull_request:
     branches: [main]
-    
+
 jobs:
   tests:
     name: Unit tests
@@ -63,8 +63,16 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
       - name: Build and push Docker image
         run: |
           docker build -t luperhaps/banco-back:latest .
           docker push luperhaps/banco-back:latest
+
+  deploy:
+    name: Deploy to Render
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar despliegue en Render
+        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
