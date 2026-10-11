@@ -159,4 +159,10 @@ class Lab12026pApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));
     }
+	@Test
+    void healthCheck() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Banco digital OK"));
+    }
 }
