@@ -1,12 +1,11 @@
 name: CI/CD Pipeline
-
 on:
   workflow_dispatch:
   push:
-    branches: [main, feature/despliegue]
+    branches: [main, feature/despliegue, feature/health-readme]
   pull_request:
     branches: [main]
-
+    
 jobs:
   tests:
     name: Unit tests
@@ -26,8 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -61,7 +58,7 @@ jobs:
         with:
           name: artifact
           path: target/lab12026p.jar
-      - name: Build and push Docker image
+      - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: luperhaps/banco-back
@@ -70,11 +67,3 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-  deploy:
-    name: Deploy to Render
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
